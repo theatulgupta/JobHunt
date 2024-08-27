@@ -1,5 +1,5 @@
-import { Avatar, AvatarImage } from '../ui/avatar';
 import { LogOut, User2 } from 'lucide-react';
+import { Avatar, AvatarImage } from '../ui/avatar';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 import { Button } from '@/components/ui/button';
@@ -8,18 +8,30 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
   const user = false;
   return (
-    <div className="bg-white mx-2">
-      <div className="flex items-center justify-between mx-auto max-w-7xl h-16">
+    <div className="mx-2 bg-white">
+      <div className="flex items-center justify-between h-16 mx-auto max-w-[90%]">
         <div>
           <h1 className="text-2xl font-bold">
             Job<span className="text-[#F83002]">Hunt</span>
           </h1>
         </div>
         <div className="flex items-center gap-12">
-          <ul className="flex gap-5 font-medium items-center">
-            <li>Home</li>
-            <li>Jobs</li>
-            <li>Browse</li>
+          <ul className="flex items-center gap-5 font-medium">
+            <li>
+              <Button variant="ghost">
+                <Link to="/">Home</Link>
+              </Button>
+            </li>
+            <li>
+              <Button variant="ghost">
+                <Link to="/jobs">Jobs</Link>
+              </Button>
+            </li>
+            <li>
+              <Button variant="ghost">
+                <Link to="/browse">Browse</Link>
+              </Button>
+            </li>
           </ul>
           {!user ? (
             <div className="flex items-center gap-2">
@@ -39,7 +51,7 @@ const Navbar = () => {
               </PopoverTrigger>
               <PopoverContent className="w-80">
                 <div>
-                  <div className="flex gap-2 items-center justify-left">
+                  <div className="flex items-center gap-2 justify-left">
                     <Avatar className="cursor-pointer">
                       <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
                     </Avatar>
@@ -48,7 +60,7 @@ const Navbar = () => {
                       <p className="text-sm text-muted-foreground">Lorem ipsum dolor sit amet.</p>
                     </div>
                   </div>
-                  <div className="flex flex-col text-gray-600 my-2 ml-2">
+                  <div className="flex flex-col my-2 ml-2 text-gray-600">
                     <div className="flex items-center gap-2 cursor-pointer">
                       <User2 />
                       <Button variant="ghost">View Profile</Button>
