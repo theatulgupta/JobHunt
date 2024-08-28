@@ -1,18 +1,18 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { setLoading, setUser } from '@/redux/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
+import { USER_API_ENDPOINT } from '@/utils/constant';
+import axios from 'axios';
+import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import Navbar from '../shared/Navbar';
+import RadioOption from '../shared/RadioOption';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
-import { Loader2 } from 'lucide-react';
-import Navbar from '../shared/Navbar';
 import { RadioGroup } from '../ui/radio-group';
-import RadioOption from '../shared/RadioOption';
-import { USER_API_ENDPOINT } from '@/utils/constant';
-import axios from 'axios';
-import { setLoading } from '@/redux/authSlice';
-import { toast } from 'sonner';
-import { useState } from 'react';
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -40,19 +40,24 @@ const Login = () => {
 
     try {
       dispatch(setLoading(true));
-      const response = await axios.post(`${USER_API_ENDPOINT}/login`, input, {
+      const res = await axios.post(`${USER_API_ENDPOINT}/login`, input, {
         headers: {
           'Content-Type': 'application/json',
         },
         withCredentials: true,
       });
-      if (response.data.success) {
+      if (res.data.success) {
+        dispatch(setUser(res.data.data.user));
         navigate('/');
-        toast.success(response.data.message);
+        toast.success(res.data.message);
+      } else {
+        toast.error('Invalid response from server');
       }
     } catch (error) {
-      if (error.response.data) {
+      if (error.response && error.response.data) {
         toast.error(error.response.data.message);
+      } else {
+        toast.error('Failed to login. Please try again later');
       }
     } finally {
       dispatch(setLoading(false));
@@ -62,9 +67,9 @@ const Login = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex items-center justify-center max-w-7xl mx-auto mt-2">
-        <form onSubmit={handleSubmit} className="w-1/2 border border-gray-200 rounded-md p-4">
-          <h1 className="font-bold text-2xl mb-5">Login</h1>
+      <div className="flex items-center justify-center mx-auto mt-2 max-w-7xl">
+        <form onSubmit={handleSubmit} className="w-1/2 p-4 border border-gray-200 rounded-md">
+          <h1 className="mb-5 text-2xl font-bold">Login</h1>
 
           <div className="my-2">
             <Label>Email Address</Label>
@@ -105,7 +110,7 @@ const Login = () => {
 
           {loading ? (
             <Button className="w-full my-2">
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
               Please wait...
             </Button>
           ) : (

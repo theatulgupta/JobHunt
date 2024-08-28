@@ -3,10 +3,11 @@ import { Avatar, AvatarImage } from '../ui/avatar';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 import { Button } from '@/components/ui/button';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-  const user = false;
+  const user = useSelector((store) => store.auth.user);
   return (
     <div className="mx-2 bg-white">
       <div className="flex items-center justify-between h-16 mx-auto max-w-[90%]">
@@ -18,17 +19,17 @@ const Navbar = () => {
         <div className="flex items-center gap-12">
           <ul className="flex items-center gap-5 font-medium">
             <li>
-              <Button variant="ghost">
+              <Button className="text-md" variant="ghost">
                 <Link to="/">Home</Link>
               </Button>
             </li>
             <li>
-              <Button variant="ghost">
+              <Button className="text-md" variant="ghost">
                 <Link to="/jobs">Jobs</Link>
               </Button>
             </li>
             <li>
-              <Button variant="ghost">
+              <Button className="text-md" variant="ghost">
                 <Link to="/browse">Browse</Link>
               </Button>
             </li>
