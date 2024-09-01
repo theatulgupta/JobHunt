@@ -10,8 +10,8 @@ const Browse = () => {
       <div className="max-w-[90%] mx-auto my-10">
         <h1 className="my-10 text-xl font-bold">Search Results ({randomJobs.length})</h1>
         <div className="grid grid-cols-3 gap-4">
-          {randomJobs.map((item, index) => (
-            <Job />
+          {randomJobs.map((job, index) => (
+            <Job key={index} job={job} />
           ))}
         </div>
       </div>

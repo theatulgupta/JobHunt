@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { setLoading } from '@/redux/authSlice';
 import { USER_API_ENDPOINT } from '@/utils/constant';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
@@ -24,7 +25,7 @@ const Signup = () => {
   });
 
   const navigate = useNavigate();
-  const loading = useSelector((store) => store.auth.loading);
+  const { loading } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -70,10 +71,10 @@ const Signup = () => {
       });
       if (response.data.success) {
         navigate('/');
-        toast.success(response.data.message);
+        toast.success(response?.data?.message);
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message);
     } finally {
       dispatch(setLoading(false));
     }
@@ -82,9 +83,9 @@ const Signup = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex items-center justify-center max-w-7xl mx-auto mt-2">
-        <form onSubmit={handleSubmit} className="w-1/2 border border-gray-200 rounded-md p-4">
-          <h1 className="font-bold text-2xl mb-5">Sign Up</h1>
+      <div className="flex items-center justify-center mx-auto mt-2 max-w-7xl">
+        <form onSubmit={handleSubmit} className="w-1/2 p-4 border border-gray-200 rounded-md">
+          <h1 className="mb-5 text-2xl font-bold">Sign Up</h1>
 
           <div className="my-2">
             <Label>Full Name</Label>
@@ -158,7 +159,7 @@ const Signup = () => {
 
           {loading ? (
             <Button className="w-full my-2">
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
               Please wait...
             </Button>
           ) : (

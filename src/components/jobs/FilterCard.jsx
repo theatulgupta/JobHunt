@@ -30,10 +30,10 @@ const FilterCard = () => {
       <hr className="my-2" />
       <RadioGroup>
         {filterData.map((industry, index) => (
-          <div>
+          <div key={index} className="flex flex-col gap-2">
             <h1 className="text-lg font-semibold">{industry.filterType}</h1>
-            {industry.array.map((item) => (
-              <div className="flex items-center my-2 space-x-2">
+            {industry.array.map((item, index) => (
+              <div key={`${industry.filterType}-${index}`} className="flex gap-2">
                 <RadioGroupItem id={item} name={industry.filterType} value={item} />
                 <Label htmlFor={item}>{item}</Label>
               </div>
